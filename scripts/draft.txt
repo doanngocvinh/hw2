@@ -160,6 +160,65 @@ mapred streaming -file /root/mpd/mapper7.py \
 
 
 
+mapred streaming -file /root/mpd/mapper1.py \
+-file /root/mpd/reducer1.py \
+-input /mpd/input/data.txt \
+-output /mpd/out/output11 \
+-mapper "python3 mapper1.py" \
+-reducer "python3 reducer1.py" \
+-cmdenv n=2634
+
+mapred streaming -file /root/mpd/mapper2.py \
+-file /root/mpd/reducer2.py \
+-input /mpd/out/output11 \
+-output /mpd/out/output21 \
+-mapper "python3 mapper2.py" \
+-reducer "python3 reducer2.py" \
+-cmdenv n=1000
+
+mapred streaming -file /root/mpd/mapper3.py \
+-file /root/mpd/reducer3.py \
+-input /mpd/out/output21 \
+-output /mpd/out/output31 \
+-mapper "python3 mapper3.py" \
+-reducer "python3 reducer3.py" \
+-cmdenv n=2634
+
+mapred streaming -file /root/mpd/mapper4.py \
+-file /root/mpd/reducer4.py \
+-input /mpd/out/output31 \
+-output /mpd/out/output41 \
+-mapper "python3 mapper4.py" \
+-reducer "python3 reducer4.py" \
+-cmdenv n=2634
+
+mapred streaming -file /root/mpd/mapper5.py \
+-file /root/mpd/reducer5.py \
+-input /mpd/out/output41 \
+-output /mpd/out/output51 \
+-mapper "python3 mapper5.py" \
+-reducer "python3 reducer5.py" \
+-cmdenv n=2634
+
+mapred streaming -file /root/mpd/mapper6.py \
+-file /root/mpd/reducer6.py \
+-input /mpd/out/output51 \
+-output /mpd/out/output61 \
+-mapper "python3 mapper6.py" \
+-reducer "python3 reducer6.py" \
+-cmdenv n=2634
+
+mapred streaming -file /root/mpd/mapper7.py \
+-file /root/mpd/reducer7.py \
+-input /mpd/out/output61 \
+-output /mpd/out/output71 \
+-mapper "python3 mapper7.py" \
+-reducer "python3 reducer7.py" 
+
+
+
+hdfs dfs -get /mpd/out/output71  /root/mpd/output
+sort -nr -k 2 /root/mpd/output/part-00000 | head -n 10
 
 
 
