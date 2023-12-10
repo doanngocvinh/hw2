@@ -86,7 +86,7 @@ mapred streaming -file /root/mean/mapper1.py \
 -output /mean/output1 \
 -mapper "python3 mapper1.py" \
 -reducer "python3 reducer1.py" \
--cmdenv n=10
+-cmdenv n=100
 
 mapred streaming -file /root/mean/mapper2.py \
 -file /root/mean/reducer2.py \
@@ -94,7 +94,7 @@ mapred streaming -file /root/mean/mapper2.py \
 -output /mean/output2 \
 -mapper "python3 mapper2.py" \
 -reducer "python3 reducer2.py" \
--cmdenv n=10
+-cmdenv n=100
 
 
 hdfs dfs -get /mean/output2  /root/mean/output
@@ -110,7 +110,7 @@ mapred streaming -file /root/mpd/mapper1.py \
 -output /mpd/output1 \
 -mapper "python3 mapper1.py" \
 -reducer "python3 reducer1.py" \
--cmdenv n=1000
+-cmdenv n=500
 
 mapred streaming -file /root/mpd/mapper2.py \
 -file /root/mpd/reducer2.py \
