@@ -1,13 +1,13 @@
 #!/bin/bash
 
 #namenode
-docker start namenode
+docker start hadoop-master
 
-#datanode 1
-docker start datanode1 
+#hadoop-slave 1
+docker start hadoop-slave1 
 
-#datanode 2
-docker start datanode2 
+#hadoop-slave 2
+docker start hadoop-slave2 
 
 #namenode for operating hadoop cluster(attached to current terminal)
 docker exec -it namenode bash
