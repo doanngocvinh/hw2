@@ -1,2 +1,4 @@
-docker pull lyingbo/hadoop:3.2.0
-docker tag lyingbo/hadoop:3.2.0 docker_hadoop
+#!/bin/bash
+docker build . -t hadoop_base:latest
+
+docker tag yanyun/hadoop:1.2 hadoop_base:latest
