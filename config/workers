@@ -1,4 +1,3 @@
-namenode
-datanode1
-datanode2
-
+hadoop-master
+hadoop-slave1
+hadoop-slave2

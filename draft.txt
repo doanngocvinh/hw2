@@ -1,0 +1,234 @@
+mapred streaming -file /root/k-mer/mapper.py \
+-file /root/k-mer/reducer.py \
+-input /k-mer/input/ecoli.fa \
+-output /k-mer/output \
+-mapper "python3 mapper.py" \
+-reducer "python3 reducer.py" \
+-cmdenv k=9
+
+
+----------------------------wordcount---------------------
+hdfs dfs -mkdir /wordcount
+hdfs dfs -mkdir /wordcount/input
+hdfs dfs -put /root/wordcount/bible+shakes.nopunc /wordcount/input
+mapred streaming -file /root/wordcount/mapper.py \
+-file /root/wordcount/reducer.py \
+-input /wordcount/input/bible+shakes.nopunc \
+-output /wordcount/output \
+-mapper "python3 mapper.py" \
+-reducer "python3 reducer.py" 
+
+
+
+----------------------------------gnome------------------
+hdfs dfs -mkdir /gnome
+hdfs dfs -mkdir /gnome/input
+hdfs dfs -put /root/gnome/ecoli.fa /gnome/input
+mapred streaming -file /root/gnome/mapper.py \
+-file /root/gnome/reducer.py \
+-input /gnome/input/ecoli.fa \
+-output /gnome/output \
+-mapper "python3 mapper.py" \
+-reducer "python3 reducer.py" \
+-cmdenv k=9
+
+
+
+
+
+-----------------------------distinct--------------------------------
+hdfs dfs -mkdir /distinct
+hdfs dfs -mkdir /distinct/input
+hdfs dfs -put /root/distinct/data.txt /distinct/input
+mapred streaming -file /root/distinct/mapper1.py \
+-file /root/distinct/reducer1.py \
+-input /distinct/input/data.txt \
+-output /distinct/output1 \
+-mapper "python3 mapper1.py" \
+-reducer "python3 reducer1.py" \
+-cmdenv n=100
+
+mapred streaming -file /root/distinct/mapper2.py \
+-file /root/distinct/reducer2.py \
+-input /distinct/output1 \
+-output /distinct/output2 \
+-mapper "python3 mapper2.py" \
+-reducer "python3 reducer2.py" 
+
+mapred streaming -file /root/distinct/mapper3.py \
+-file /root/distinct/reducer3.py \
+-input /distinct/output2 \
+-output /distinct/output3 \
+-mapper "python3 mapper3.py" \
+-reducer "python3 reducer3.py" 
+
+mapred streaming -file /root/distinct/mapper4.py \
+-file /root/distinct/reducer4.py \
+-input /distinct/output3 \
+-output /distinct/output4 \
+-mapper "python3 mapper4.py" \
+-reducer "python3 reducer4.py" 
+
+hdfs dfs -get /distinct/output4  /root/distinct/output
+sort -nr -k 2 /root/distinct/output/part-00000 | head -n 5
+
+
+-------------------------------------mean--------------------------
+hdfs dfs -mkdir /mean
+hdfs dfs -mkdir /mean/input
+hdfs dfs -put /root/mean/data.txt /mean/input
+mapred streaming -file /root/mean/mapper1.py \
+-file /root/mean/reducer1.py \
+-input /mean/input/data.txt \
+-output /mean/output1 \
+-mapper "python3 mapper1.py" \
+-reducer "python3 reducer1.py" \
+-cmdenv n=100
+
+mapred streaming -file /root/mean/mapper2.py \
+-file /root/mean/reducer2.py \
+-input /mean/output1 \
+-output /mean/output2 \
+-mapper "python3 mapper2.py" \
+-reducer "python3 reducer2.py" \
+-cmdenv n=100
+
+
+hdfs dfs -get /mean/output2  /root/mean/output
+sort -nr -k 2 /root/mean/output/part-00000 | head -n 10
+
+
+
+
+---------------------------------mpd------------------------------
+hdfs dfs -mkdir /mpd
+hdfs dfs -mkdir /mpd/input
+hdfs dfs -put /root/mpd/small.txt /mpd/input
+hdfs dfs -put /root/mpd/data.txt /mpd/input
+mapred streaming -file /root/mpd/mapper1.py \
+-file /root/mpd/reducer1.py \
+-input /mpd/input/data.txt \
+-output /mpd/output1 \
+-mapper "python3 mapper1.py" \
+-reducer "python3 reducer1.py" \
+-cmdenv n=2636
+
+mapred streaming -file /root/mpd/mapper2.py \
+-file /root/mpd/reducer2.py \
+-input /mpd/output1 \
+-output /mpd/output2 \
+-mapper "python3 mapper2.py" \
+-reducer "python3 reducer2.py" \
+-cmdenv n=2636
+
+mapred streaming -file /root/mpd/mapper3.py \
+-file /root/mpd/reducer3.py \
+-input /mpd/output2 \
+-output /mpd/output3 \
+-mapper "python3 mapper3.py" \
+-reducer "python3 reducer3.py" \
+-cmdenv n=2636
+
+mapred streaming -file /root/mpd/mapper4.py \
+-file /root/mpd/reducer4.py \
+-input /mpd/output3 \
+-output /mpd/output4 \
+-mapper "python3 mapper4.py" \
+-reducer "python3 reducer4.py" \
+-cmdenv n=2636
+
+mapred streaming -file /root/mpd/mapper5.py \
+-file /root/mpd/reducer5.py \
+-input /mpd/output4 \
+-output /mpd/output5 \
+-mapper "python3 mapper5.py" \
+-reducer "python3 reducer5.py" \
+-cmdenv n=2636
+
+mapred streaming -file /root/mpd/mapper6.py \
+-file /root/mpd/reducer6.py \
+-input /mpd/output5 \
+-output /mpd/output6 \
+-mapper "python3 mapper6.py" \
+-reducer "python3 reducer6.py" \
+-cmdenv n=2636
+
+mapred streaming -file /root/mpd/mapper7.py \
+-file /root/mpd/reducer7.py \
+-input /mpd/output6 \
+-output /mpd/output7 \
+-mapper "python3 mapper7.py" \
+-reducer "python3 reducer7.py" 
+
+
+
+mapred streaming -file /root/mpd/mapper1.py \
+-file /root/mpd/reducer1.py \
+-input /mpd/input/small.txt \
+-output /mpd/out/output11 \
+-mapper "python3 mapper1.py" \
+-reducer "python3 reducer1.py" \
+-cmdenv n=10
+
+mapred streaming -file /root/mpd/mapper2.py \
+-file /root/mpd/reducer2.py \
+-input /mpd/out/output11 \
+-output /mpd/out/output21 \
+-mapper "python3 mapper2.py" \
+-reducer "python3 reducer2.py" \
+-cmdenv n=10
+
+mapred streaming -file /root/mpd/mapper3.py \
+-file /root/mpd/reducer3.py \
+-input /mpd/out/output21 \
+-output /mpd/out/output31 \
+-mapper "python3 mapper3.py" \
+-reducer "python3 reducer3.py" \
+-cmdenv n=10
+
+mapred streaming -file /root/mpd/mapper4.py \
+-file /root/mpd/reducer4.py \
+-input /mpd/out/output31 \
+-output /mpd/out/output41 \
+-mapper "python3 mapper4.py" \
+-reducer "python3 reducer4.py" \
+-cmdenv n=10
+
+mapred streaming -file /root/mpd/mapper5.py \
+-file /root/mpd/reducer5.py \
+-input /mpd/out/output41 \
+-output /mpd/out/output51 \
+-mapper "python3 mapper5.py" \
+-reducer "python3 reducer5.py" \
+-cmdenv n=10
+
+mapred streaming -file /root/mpd/mapper6.py \
+-file /root/mpd/reducer6.py \
+-input /mpd/out/output51 \
+-output /mpd/out/output61 \
+-mapper "python3 mapper6.py" \
+-reducer "python3 reducer6.py" \
+-cmdenv n=10
+
+mapred streaming -file /root/mpd/mapper7.py \
+-file /root/mpd/reducer7.py \
+-input /mpd/out/output61 \
+-output /mpd/out/output71 \
+-mapper "python3 mapper7.py" \
+-reducer "python3 reducer7.py" 
+
+
+
+hdfs dfs -get /mpd/output71 /root/mpd/output
+hdfs dfs -get /mpd/output7 /root/mpd/output
+
+sort -nr -k 2 /root/mpd/output/part-00000 | head -n 10
+
+sort -nr -k 2 /root/mpd/out/output31/part-00000 
+
+
+sort -nr -k 2 /root/gnome/output/part-00000 | head -n 10
+
+
+done: k-mer, wordcount, distinct, mean
+

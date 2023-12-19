@@ -1,13 +1,18 @@
 #!/bin/bash
 
+#Automatical stats one namenode and 3 datanodes in a docker network
+
 #namenode
-docker start hadoop-master
+docker start namenode 
 
-#hadoop-slave 1
-docker start hadoop-slave1 
+#datanode 1
+docker start datanode1 
 
-#hadoop-slave 2
-docker start hadoop-slave2 
+#datanode 2
+docker start datanode2 
+
+
+
 
 #namenode for operating hadoop cluster(attached to current terminal)
 docker exec -it namenode bash

@@ -1,24 +1,13 @@
 #!/bin/bash
 
-docker run -it docker_hadoop /bin/bash
-# apt-get install python3
+docker network create dock_net
+
+docker run -itd --net dock_net --hostname namenode-master --name namenode -p 9870:9870 -p 8088:8088 hadoop_base:latest
+docker run -itd --net dock_net --hostname datanode1 --name datanode1 hadoop_base:latest
+docker run -itd --net dock_net --hostname datanode2 --name datanode2 hadoop_base:latest
 
 
-docker network create hadoop
-
-docker run -itd \
-           --net=hadoop \
-           -p 9870:9870 \
-           -p 8088:8088 \
-           --name hadoop-master \
-           --hostname hadoop-master \
-           docker_hadoop 
-
-
-docker run -itd --net hadoop --hostname hadoop-slave1 --name hadoop-slave1 docker_hadoop
-docker run -itd --net hadoop --hostname hadoop-slave2 --name hadoop-slave2 docker_hadoop
-
-
-docker exec -it hadoop-master bash
+docker exec namenode sh -c "hdfs namenode -format"
+docker exec -it namenode bash
 # start-all.sh
 

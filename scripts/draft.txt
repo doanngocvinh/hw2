@@ -111,7 +111,7 @@ mapred streaming -file /root/mpd/mapper1.py \
 -output /mpd/output1 \
 -mapper "python3 mapper1.py" \
 -reducer "python3 reducer1.py" \
--cmdenv n=500
+-cmdenv n=2636
 
 mapred streaming -file /root/mpd/mapper2.py \
 -file /root/mpd/reducer2.py \
@@ -119,14 +119,15 @@ mapred streaming -file /root/mpd/mapper2.py \
 -output /mpd/output2 \
 -mapper "python3 mapper2.py" \
 -reducer "python3 reducer2.py" \
--cmdenv n=100
+-cmdenv n=2636
 
 mapred streaming -file /root/mpd/mapper3.py \
 -file /root/mpd/reducer3.py \
 -input /mpd/output2 \
 -output /mpd/output3 \
 -mapper "python3 mapper3.py" \
--reducer "python3 reducer3.py" 
+-reducer "python3 reducer3.py" \
+-cmdenv n=2636
 
 mapred streaming -file /root/mpd/mapper4.py \
 -file /root/mpd/reducer4.py \
@@ -134,7 +135,7 @@ mapred streaming -file /root/mpd/mapper4.py \
 -output /mpd/output4 \
 -mapper "python3 mapper4.py" \
 -reducer "python3 reducer4.py" \
--cmdenv n=50
+-cmdenv n=2636
 
 mapred streaming -file /root/mpd/mapper5.py \
 -file /root/mpd/reducer5.py \
@@ -142,7 +143,7 @@ mapred streaming -file /root/mpd/mapper5.py \
 -output /mpd/output5 \
 -mapper "python3 mapper5.py" \
 -reducer "python3 reducer5.py" \
--cmdenv n=20
+-cmdenv n=2636
 
 mapred streaming -file /root/mpd/mapper6.py \
 -file /root/mpd/reducer6.py \
@@ -150,7 +151,7 @@ mapred streaming -file /root/mpd/mapper6.py \
 -output /mpd/output6 \
 -mapper "python3 mapper6.py" \
 -reducer "python3 reducer6.py" \
--cmdenv n=10
+-cmdenv n=2636
 
 mapred streaming -file /root/mpd/mapper7.py \
 -file /root/mpd/reducer7.py \
@@ -218,9 +219,15 @@ mapred streaming -file /root/mpd/mapper7.py \
 
 
 
-hdfs dfs -get /mpd/out/output71  /root/mpd/output
+hdfs dfs -get /mpd/output71 /root/mpd/output
+hdfs dfs -get /mpd/output7 /root/mpd/output
+
 sort -nr -k 2 /root/mpd/output/part-00000 | head -n 10
 
+sort -nr -k 2 /root/mpd/out/output31/part-00000 
+
+
+sort -nr -k 2 /root/gnome/output/part-00000 | head -n 10
 
 
 done: k-mer, wordcount, distinct, mean
